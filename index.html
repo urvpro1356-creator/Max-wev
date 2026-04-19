@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YourChannel — Website Code</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Courier New', monospace; background: #0d0d0d; color: #e0e0e0; }
+
+    .navbar { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; border-bottom: 1px solid #1e1e1e; }
+    .logo { font-size: 18px; font-weight: bold; color: #ff4444; letter-spacing: 1px; }
+    .logo span { color: #e0e0e0; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { font-size: 13px; color: #888; text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: #ff4444; }
+
+    .hero { padding: 3rem 2rem 2rem; display: flex; align-items: center; gap: 2rem; border-bottom: 1px solid #1a1a1a; }
+    .avatar { width: 88px; height: 88px; border-radius: 50%; background: #1a1a1a; border: 2px solid #ff4444; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold; color: #ff4444; flex-shrink: 0; }
+    .hero-info h1 { font-size: 24px; font-weight: bold; color: #fff; margin-bottom: 8px; }
+    .hero-info p { font-size: 14px; color: #888; line-height: 1.6; max-width: 480px; margin-bottom: 14px; }
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge { font-size: 11px; padding: 3px 10px; border-radius: 4px; border: 1px solid #2a2a2a; color: #aaa; background: #161616; }
+    .badge.red { border-color: #ff4444; color: #ff4444; background: #1a0a0a; }
+
+    .stats-bar { display: flex; align-items: center; gap: 2rem; padding: 1.2rem 2rem; border-bottom: 1px solid #1a1a1a; background: #111; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-num { font-size: 20px; font-weight: bold; color: #ff4444; }
+    .stat-label { font-size: 11px; color: #555; margin-top: 2px; }
+    .sub-btn { margin-left: auto; background: #ff4444; border: none; color: #fff; font-size: 13px; padding: 10px 24px; border-radius: 6px; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; }
+    .sub-btn:hover { background: #cc3333; }
+
+    .section { padding: 1.5rem 2rem 0; }
+    .section-title { font-size: 12px; color: #555; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: #1e1e1e; }
+
+    .videos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 2rem; }
+    .video-card { background: #111; border: 1px solid #1e1e1e; border-radius: 8px; overflow: hidden; cursor: pointer; transition: border-color 0.2s; }
+    .video-card:hover { border-color: #ff4444; }
+    .thumb { height: 110px; background: #1a1a1a; position: relative; padding: 10px; }
+    .thumb-code { font-size: 11px; color: #2a6aad; line-height: 1.6; }
+    .thumb-hl { color: #ff4444; }
+    .thumb-str { color: #ce9178; }
+    .thumb-kw { color: #569cd6; }
+    .play-badge { position: absolute; bottom: 8px; right: 8px; background: #ff4444; color: white; font-size: 10px; padding: 2px 7px; border-radius: 3px; }
+    .video-info { padding: 10px; }
+    .video-title { font-size: 12px; color: #ccc; margin-bottom: 5px; line-height: 1.4; font-family: Arial, sans-serif; }
+    .video-meta { font-size: 11px; color: #555; }
+
+    .about-card { background: #111; border: 1px solid #1e1e1e; border-radius: 8px; padding: 1.2rem; margin-bottom: 1.5rem; }
+    .about-line { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; }
+    .about-icon { color: #ff4444; flex-shrink: 0; margin-top: 1px; }
+    .about-text { color: #999; line-height: 1.6; }
+    .links-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    .link-chip { font-size: 12px; padding: 6px 14px; border: 1px solid #2a2a2a; border-radius: 20px; color: #888; text-decoration: none; transition: all 0.2s; }
+    .link-chip:hover { border-color: #ff4444; color: #ff4444; }
+
+    .terminal-bar { background: #111; border: 1px solid #1e1e1e; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #555; margin: 0 2rem 2rem; }
+    .t-prompt { color: #ff4444; }
+    .t-cmd { color: #e0e0e0; }
+    .t-cursor { display: inline-block; width: 8px; height: 14px; background: #ff4444; margin-left: 3px; vertical-align: middle; animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">&lt;<span>YourChannel</span>/&gt;</div>
+    <div class="nav-links">
+      <a href="#">home</a>
+      <a href="#">videos</a>
+      <a href="#">about</a>
+      <a href="#">github</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="avatar">YC</div>
+    <div class="hero-info">
+      <h1>YourChannel</h1>
+      <p>Building the web, one line at a time. Tutorials on HTML, CSS, JavaScript & more — explained simply, coded cleanly.</p>
+      <div class="badges">
+        <span class="badge red">▶ YouTube</span>
+        <span class="badge">HTML</span>
+        <span class="badge">CSS</span>
+        <span class="badge">JavaScript</span>
+        <span class="badge">React</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">1.2K</div><div class="stat-label">subscribers</div></div>
+    <div class="stat"><div class="stat-num">24</div><div class="stat-label">videos</div></div>
+    <div class="stat"><div class="stat-num">18K</div><div class="stat-label">views</div></div>
+    <div class="stat"><div class="stat-num">2021</div><div class="stat-label">since</div></div>
+    <button class="sub-btn">▶ Subscribe</button>
+  </div>
+
+  <div class="section">
+    <div class="section-title">latest videos</div>
+    <div class="videos-grid">
+      <div class="video-card">
+        <div class="thumb">
+          <div class="thumb-code"><span class="thumb-kw">const</span> app = <span class="thumb-hl">document</span><br>.getElementById(<span class="thumb-str">'app'</span>)<br><span class="thumb-kw">app</span>.style.color = <span class="thumb-str">'#ff4444'</span></div>
+          <div class="play-badge">▶ 12:34</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">JavaScript DOM Manipulation for Beginners</div>
+          <div class="video-meta">3.2K views · 2d ago</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="thumb">
+          <div class="thumb-code"><span class="thumb-kw">@media</span> (max-width: <span class="thumb-str">768px</span>) {<br>  .container {<br>    display: <span class="thumb-hl">flex</span>;<br>  }</div>
+          <div class="play-badge">▶ 08:21</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">CSS Flexbox — Complete Guide</div>
+          <div class="video-meta">5.1K views · 1w ago</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="thumb">
+          <div class="thumb-code"><span class="thumb-kw">function</span> <span class="thumb-hl">fetchData</span>() {<br>  <span class="thumb-kw">return</span> fetch(<span class="thumb-str">url</span>)<br>  .then(res => res.<span class="thumb-hl">json</span>())<br>}</div>
+          <div class="play-badge">▶ 15:07</div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Fetch API & Async/Await Explained</div>
+          <div class="video-meta">7.8K views · 2w ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">about</div>
+    <div class="about-card">
+      <div class="about-line"><span class="about-icon">→</span><span class="about-text">Hi! I make website coding tutorials for beginners and intermediate devs. New video every week.</span></div>
+      <div class="about-line"><span class="about-icon">→</span><span class="about-text">Topics: HTML, CSS, JavaScript, React, responsive design, APIs & more.</span></div>
+      <div class="about-line"><span class="about-icon">→</span><span class="about-text">Based in India · Teaching in simple language · Code files always in description.</span></div>
+      <div class="links-row">
+        <a class="link-chip" href="#">▶ YouTube</a>
+        <a class="link-chip" href="#">{ } GitHub</a>
+        <a class="link-chip" href="#">@ Instagram</a>
+        <a class="link-chip" href="#">in LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="terminal-bar">
+    <span class="t-prompt">~/yourchannel $</span> <span class="t-cmd">git push origin new-tutorial --coding --fun --consistent</span><span class="t-cursor"></span>
+  </div>
+
+</body>
+</html>
