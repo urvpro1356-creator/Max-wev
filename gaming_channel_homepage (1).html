@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Urv Playz — Gaming</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f3f4f6; color: #111; }
+
+    /* API KEY SETUP BOX */
+    .api-setup { background: #fef3c7; border: 1px solid #f59e0b; border-radius: 10px; padding: 1.2rem 1.5rem; margin: 1.5rem 2rem; }
+    .api-setup h3 { font-size: 14px; color: #92400e; margin-bottom: 8px; }
+    .api-setup p { font-size: 13px; color: #78350f; margin-bottom: 10px; line-height: 1.5; }
+    .api-input-row { display: flex; gap: 8px; }
+    .api-input { flex: 1; padding: 8px 12px; border: 1px solid #f59e0b; border-radius: 6px; font-size: 13px; background: #fff; }
+    .api-save-btn { background: #f59e0b; border: none; color: #fff; font-size: 13px; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .api-save-btn:hover { background: #d97706; }
+
+    /* NAVBAR */
+    .topbar { background: linear-gradient(135deg, #7c3aed, #2563eb); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 20px; font-weight: bold; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .logo-icon { width: 30px; height: 30px; background: rgba(255,255,255,0.2); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .nav { display: flex; gap: 1rem; }
+    .nav a { font-size: 13px; color: rgba(255,255,255,0.8); text-decoration: none; padding: 5px 12px; border-radius: 6px; transition: background 0.2s; }
+    .nav a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+    /* HERO */
+    .hero-banner { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e40af 100%); padding: 2.5rem 2rem; display: flex; align-items: center; gap: 2rem; }
+    .avatar-ring { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, #7c3aed, #2563eb); padding: 3px; flex-shrink: 0; }
+    .avatar-inner { width: 100%; height: 100%; border-radius: 50%; background: #1e1b4b; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #a78bfa; }
+    .hero-text h1 { font-size: 26px; font-weight: bold; color: #fff; margin-bottom: 8px; }
+    .hero-text p { font-size: 14px; color: #a5b4fc; line-height: 1.6; max-width: 480px; margin-bottom: 14px; }
+    .tag-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag { font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: bold; }
+    .tag-purple { background: #4c1d95; color: #c4b5fd; }
+    .tag-blue { background: #1e3a8a; color: #93c5fd; }
+    .tag-green { background: #14532d; color: #86efac; }
+
+    /* STATS */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); background: #e5e7eb; gap: 1px; border-bottom: 1px solid #e5e7eb; }
+    .stat-box { background: #fff; padding: 1.2rem; text-align: center; }
+    .stat-num { font-size: 22px; font-weight: bold; color: #7c3aed; }
+    .stat-lbl { font-size: 12px; color: #6b7280; margin-top: 3px; }
+
+    /* SUBSCRIBE */
+    .sub-area { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 14px 2rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; }
+    .sub-btn { background: linear-gradient(135deg, #7c3aed, #2563eb); border: none; color: #fff; font-size: 14px; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    .sub-btn:hover { opacity: 0.9; }
+    .sub-note { font-size: 13px; color: #6b7280; }
+
+    /* SECTIONS */
+    .section { padding: 1.5rem 2rem 0; }
+    .sec-hdr { font-size: 11px; font-weight: bold; color: #6b7280; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+    .sec-hdr::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
+    .sec-dot { width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #7c3aed, #2563eb); }
+
+    /* VIDEO CARDS */
+    .videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 2rem; }
+    .vcard { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 0.2s, transform 0.15s; text-decoration: none; display: block; color: inherit; }
+    .vcard:hover { border-color: #7c3aed; transform: translateY(-2px); }
+    .vthumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: #1e1b4b; }
+    .vthumb-placeholder { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #4c1d95, #1e3a8a); display: flex; align-items: center; justify-content: center; font-size: 36px; position: relative; }
+    .live-badge { position: absolute; top: 7px; left: 7px; background: #ef4444; color: #fff; font-size: 10px; font-weight: bold; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.5px; }
+    .vinfo { padding: 10px; }
+    .vtitle { font-size: 13px; font-weight: bold; color: #111; margin-bottom: 5px; line-height: 1.4; }
+    .vmeta { font-size: 11px; color: #6b7280; }
+
+    /* LOADING / ERROR */
+    .loading { text-align: center; padding: 2rem; color: #6b7280; font-size: 14px; }
+    .loading-spinner { display: inline-block; width: 24px; height: 24px; border: 3px solid #e5e7eb; border-top-color: #7c3aed; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 10px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-msg { background: #fee2e2; border: 1px solid #fca5a5; border-radius: 8px; padding: 1rem; font-size: 13px; color: #991b1b; margin-bottom: 1rem; line-height: 1.6; }
+
+    /* ABOUT CARDS */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 2rem; }
+    .acard { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 1.2rem; }
+    .acard-icon { font-size: 22px; margin-bottom: 8px; }
+    .acard-title { font-size: 13px; font-weight: bold; color: #111; margin-bottom: 5px; }
+    .acard-text { font-size: 13px; color: #6b7280; line-height: 1.6; }
+
+    /* LINKS */
+    .links-section { padding: 0 2rem 2rem; }
+    .links-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .lchip { font-size: 12px; padding: 7px 16px; border-radius: 20px; border: 1px solid #d1d5db; color: #6b7280; text-decoration: none; transition: all 0.2s; background: #fff; }
+    .lchip:hover { border-color: #7c3aed; color: #7c3aed; }
+    .lchip-yt { border-color: #ef4444; color: #ef4444; }
+  </style>
+</head>
+<body>
+
+  <!-- API KEY SETUP -->
+  <div class="api-setup" id="apiSetupBox">
+    <h3>&#128273; Enter your YouTube API Key to auto-load videos</h3>
+    <p>Get a free key at <strong>console.cloud.google.com</strong> → APIs &amp; Services → Enable YouTube Data API v3 → Credentials → Create API Key</p>
+    <div class="api-input-row">
+      <input class="api-input" id="apiKeyInput" type="text" placeholder="Paste your YouTube API Key here..." />
+      <button class="api-save-btn" onclick="saveApiKey()">Load Videos &#9654;</button>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-icon">&#9654;</div>
+      Urv Playz
+    </div>
+    <nav class="nav">
+      <a href="#">home</a>
+      <a href="#videos-section">videos</a>
+      <a href="#about-section">about</a>
+      <a href="#">discord</a>
+    </nav>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero-banner">
+    <div class="avatar-ring">
+      <div class="avatar-inner">UP</div>
+    </div>
+    <div class="hero-text">
+      <h1>Urv Playz</h1>
+      <p>Level up your game. Epic gameplay, tips, reviews & live streams — new content every week!</p>
+      <div class="tag-row">
+        <span class="tag tag-purple">&#9654; Gaming</span>
+        <span class="tag tag-blue">&#128190; Reviews</span>
+        <span class="tag tag-green">&#128640; Live Streams</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-num">65</div><div class="stat-lbl">subscribers</div></div>
+    <div class="stat-box"><div class="stat-num">42</div><div class="stat-lbl">videos</div></div>
+    <div class="stat-box"><div class="stat-num">48K</div><div class="stat-lbl">views</div></div>
+    <div class="stat-box"><div class="stat-num">2025</div><div class="stat-lbl">since</div></div>
+  </div>
+
+  <!-- SUBSCRIBE -->
+  <div class="sub-area">
+    <a href="https://www.youtube.com/@UrvPlayz" target="_blank" style="text-decoration:none;">
+      <button class="sub-btn">&#9654; Subscribe Now</button>
+    </a>
+    <span class="sub-note">Free — new videos every week!</span>
+  </div>
+
+  <!-- VIDEOS -->
+  <div class="section" id="videos-section">
+    <div class="sec-hdr"><span class="sec-dot"></span>latest videos &amp; live streams</div>
+    <div id="videos-container">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <div>Enter your API key above to auto-load your latest videos &amp; live streams!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section" id="about-section">
+    <div class="sec-hdr"><span class="sec-dot"></span>about me</div>
+    <div class="about-grid">
+      <div class="acard"><div class="acard-icon">&#127918;</div><div class="acard-title">What I do</div><div class="acard-text">Gameplay walkthroughs, honest game reviews, pro tips & live streams. All skill levels welcome!</div></div>
+      <div class="acard"><div class="acard-icon">&#128197;</div><div class="acard-title">Upload schedule</div><div class="acard-text">New video every Saturday. Live streams on Wednesday nights. Never miss a drop!</div></div>
+      <div class="acard"><div class="acard-icon">&#127760;</div><div class="acard-title">Community</div><div class="acard-text">Join the Discord to chat, share clips, and play together with the squad.</div></div>
+      <div class="acard"><div class="acard-icon">&#128640;</div><div class="acard-title">Genres</div><div class="acard-text">FPS, RPG, Battle Royale, Indie gems and everything in between.</div></div>
+    </div>
+  </div>
+
+  <!-- LINKS -->
+  <div class="links-section">
+    <div class="sec-hdr" style="margin-bottom:12px;"><span class="sec-dot"></span>find me</div>
+    <div class="links-row">
+      <a class="lchip lchip-yt" href="https://www.youtube.com/@UrvPlayz" target="_blank">&#9654; YouTube</a>
+      <a class="lchip" href="#">Discord</a>
+      <a class="lchip" href="#">Instagram</a>
+      <a class="lchip" href="#">Twitter / X</a>
+      <a class="lchip" href="#">TikTok</a>
+    </div>
+  </div>
+
+  <script>
+    const CHANNEL_HANDLE = 'UrvPlayz';
+
+    function saveApiKey() {
+      const key = document.getElementById('apiKeyInput').value.trim();
+      if (!key) { alert('Please enter your API key!'); return; }
+      localStorage.setItem('yt_api_key', key);
+      loadVideos(key);
+    }
+
+    async function loadVideos(apiKey) {
+      const container = document.getElementById('videos-container');
+      container.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div>Loading your videos...</div></div>';
+      try {
+        // Get channel ID
+        const searchRes = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${CHANNEL_HANDLE}&type=channel&key=${apiKey}`);
+        const searchData = await searchRes.json();
+        if (searchData.error) throw new Error(searchData.error.message);
+        const channelId = searchData.items[0].id.channelId;
+
+        // Get uploads playlist
+        const chRes = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${apiKey}`);
+        const chData = await chRes.json();
+        const uploadsId = chData.items[0].contentDetails.relatedPlaylists.uploads;
+
+        // Get latest 6 videos
+        const vRes = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=6&playlistId=${uploadsId}&key=${apiKey}`);
+        const vData = await vRes.json();
+
+        // Check live streams
+        const lRes = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&eventType=live&type=video&key=${apiKey}`);
+        const lData = await lRes.json();
+
+        renderVideos(vData.items || [], lData.items || []);
+        document.getElementById('apiSetupBox').style.display = 'none';
+      } catch (err) {
+        container.innerHTML = `<div class="error-msg">&#10060; <strong>Error:</strong> ${err.message}<br><br>Make sure your API key is correct and <strong>YouTube Data API v3</strong> is enabled in Google Cloud Console.</div>`;
+      }
+    }
+
+    function timeAgo(dateStr) {
+      const diff = (Date.now() - new Date(dateStr)) / 1000;
+      if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+      if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+      if (diff < 604800) return Math.floor(diff/86400) + 'd ago';
+      if (diff < 2592000) return Math.floor(diff/604800) + 'w ago';
+      return Math.floor(diff/2592000) + 'mo ago';
+    }
+
+    function renderVideos(videos, liveStreams) {
+      const container = document.getElementById('videos-container');
+      let html = '<div class="videos">';
+
+      liveStreams.forEach(item => {
+        const title = item.snippet.title;
+        const videoId = item.id.videoId;
+        const thumb = item.snippet.thumbnails?.medium?.url || '';
+        html += `<a class="vcard" href="https://www.youtube.com/watch?v=${videoId}" target="_blank">
+          <div style="position:relative;">
+            ${thumb ? `<img class="vthumb" src="${thumb}" alt="${title}" />` : `<div class="vthumb-placeholder">&#128293;</div>`}
+            <span class="live-badge">&#128308; LIVE</span>
+          </div>
+          <div class="vinfo"><div class="vtitle">${title}</div><div class="vmeta">Live now</div></div>
+        </a>`;
+      });
+
+      videos.forEach(item => {
+        const title = item.snippet.title;
+        const videoId = item.snippet.resourceId.videoId;
+        const thumb = item.snippet.thumbnails?.medium?.url || '';
+        const published = item.snippet.publishedAt;
+        html += `<a class="vcard" href="https://www.youtube.com/watch?v=${videoId}" target="_blank">
+          <div style="position:relative;">
+            ${thumb ? `<img class="vthumb" src="${thumb}" alt="${title}" />` : `<div class="vthumb-placeholder">&#127918;</div>`}
+          </div>
+          <div class="vinfo"><div class="vtitle">${title}</div><div class="vmeta">${timeAgo(published)}</div></div>
+        </a>`;
+      });
+
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    window.onload = () => {
+      const saved = localStorage.getItem('yt_api_key');
+      if (saved) {
+        document.getElementById('apiKeyInput').value = saved;
+        loadVideos(saved);
+      }
+    };
+  </script>
+
+</body>
+</html>
